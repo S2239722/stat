@@ -36,7 +36,7 @@ public function Openrec($Name,$login,$Nam)
        foreach($dec as $key=>$values )
        {
            if(in_array($login, $values)):
-			setcookie("login",'ошибка', time() + 60, "/");	
+			setcookie("login",'ошибка', time() + 10, "/");	
             header("Location: " . $_SERVER["HTTP_REFERER"]);    
 		    exit();
 	        endif;

@@ -19,7 +19,7 @@
                             <input type="text" name="login" minlength="6"  required="required" > 
                                                               
                         </td>
-                        <td> <?=$_COOKIE["login"]?> </td>
+                        <td> <?if(!empty($_COOKIE["login"])): echo $_COOKIE["login"]; endif; ?> </td>
                     </tr>
  
                     <tr>
@@ -52,7 +52,7 @@
                                 <input type="text" name="confirm_password" placeholder="confirm_password" required="required">
                             </p>
                         </td>
-                        <td> <?=$_COOKIE["login1"]?> </td>
+                        <td> <?if(!empty($_COOKIE["login1"])): echo $_COOKIE["login1"]; endif;?> </td>
                     </tr>
                     <tr>
                         <td colspan="2">
@@ -70,7 +70,7 @@
 ?>
         <div id="authorized">
                 <h2>Форма регистрации </h2>
-                <h2><?=$_COOKIE["reg"]?></h2>
+                <h2><?if(!empty($_COOKIE["reg"])): echo $_COOKIE["reg"]; endif;?></h2>
 
         </div>
 <?php

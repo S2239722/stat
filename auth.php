@@ -25,10 +25,10 @@ class BD{
                 setcookie("user",$key, time() + 36, "/");
                 header("Location: " . $_SERVER["HTTP_REFERER"]);
                 }else{
-                setcookie("pas",'ошибка', time() + 60, "/");
+                setcookie("pas",'ошибка', time() + 10, "/");
                 header("Location: " . $_SERVER["HTTP_REFERER"]); }
             }else{
-                setcookie("login",'ошибка', time() + 60, "/");
+                setcookie("login",'ошибка', time() + 10, "/");
                 header("Location: " . $_SERVER["HTTP_REFERER"]);
             }
             

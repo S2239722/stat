@@ -13,7 +13,7 @@
 
     //Проверяем, если пользователь не авторизован, то выводим форму авторизации, 
     //иначе выводим сообщение о том, что он уже авторизован
-         if($_COOKIE["user"] == ' '){
+         if(empty($_COOKIE["user"])){
 ?>
  
  
@@ -27,7 +27,7 @@
                     <td>
                          <input type="text" name="login" required="required"  value='Sektor'>
                     </td>
-                    <td> <?=$_COOKIE["login"]?> </td>
+                    <td> <?if(!empty($_COOKIE["login"])): echo $_COOKIE["login"]; endif;?> </td>
                 </tr>
           
                 <tr>
@@ -36,7 +36,7 @@
                         <input type="password" name="password" placeholder="минимум 6 символов" required="required"><br>
                         <span id="valid_password_message" class="mesage_error"></span>
                     </td>
-                    <td> <?=$_COOKIE["pas"]?> </td>
+                    <td> <?if(!empty($_COOKIE["pas"])): echo $_COOKIE["pas"]; endif;?> </td>
                 </tr>
                  
                 <tr>

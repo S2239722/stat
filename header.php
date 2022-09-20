@@ -1,11 +1,11 @@
 <?php
     //Запускаем сессию
     session_start();
-    setcookie("user",' ', time() + 360, "/");
-    setcookie("login",' ', time() + 360, "/");
-    setcookie("pas",' ', time() + 360, "/");
-    setcookie("login1",' ', time() + 360, "/");
-    setcookie("reg",' ', time() + 360, "/");
+    //setcookie("user",' ', time() + 360, "/");
+    //setcookie("login",' ', time() + 360, "/");
+    //setcookie("pas",' ', time() + 360, "/");
+    //setcookie("login1",' ', time() + 360, "/");
+    //setcookie("reg",' ', time() + 360, "/");
 ?>
 <!DOCTYPE html>
 <html>
