@@ -80,7 +80,7 @@ endif;
 //header("Location: " . $_SERVER["HTTP_REFERER"]);
 
 //Проверка на запись файла 
-/*
+
 switch (json_last_error()) {
 	case JSON_ERROR_NONE:
 	break;
@@ -104,7 +104,7 @@ switch (json_last_error()) {
 	break;
 
 	
-}*/
+}
 
 //header("Location: " . $_SERVER["HTTP_REFERER"]);
 
