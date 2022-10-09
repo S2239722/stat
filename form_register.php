@@ -7,7 +7,7 @@
     $_SESSION['reg'] = $_SESSION['reg'] + 1;
     }
     if(!empty($_COOKIE["user"])):
-        echo ("Hello   ".$_COOKIE["user"].$_SESSION['reg']);
+        echo ("Hello   ".$_COOKIE["user"].$_SESSION['reg']);//подсчет посещений
 
         else:
 
@@ -39,7 +39,7 @@
 
 
 
-<script> 
+<script> //отправка формы страницы без перезагрузки и получение ответа
         $('#my_form').click(function(){
 	
 	     $.post(
