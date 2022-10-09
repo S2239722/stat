@@ -1,80 +1,58 @@
 <?php
     //Подключение шапки
-    require_once("header.php");
-    //setcookie("login",'  ', time() + 36, "/");
+    require_once("index.php");
+    //подщет количество посещений пользователя
+    if (!isset($_SESSION['reg'])) $_SESSION['reg'] = 0;
+    {
+    $_SESSION['reg'] = $_SESSION['reg'] + 1;
+    }
+    if(!empty($_COOKIE["user"])):
+        echo ("Hello   ".$_COOKIE["user"].$_SESSION['reg']);
+
+        else:
+
 ?>
 <!-- Блок для вывода сообщений -->
-<div class="block_for_messages">
-    
-    
-</div>     
-        <div id="form_register">
+
             <h2>Форма регистрации</h2>
  
-            <form action="register.php" method="post" name="form_register">
-                <table>
-                    <tbody><tr>
-                        <td> Login: </td>
-                        <td>
-                            <input type="text" name="login" minlength="6"  required="required" > 
-                                                              
-                        </td>
-                        <td> <?if(!empty($_COOKIE["login"])): echo $_COOKIE["login"]; endif; ?> </td>
-                    </tr>
- 
-                    <tr>
-                        <td> Password: </td>
-                        <td>
-                            <input type="password" name="password" minlength="6"  required="required">
+            <form id="form_reg">
+                            <div class="mar10"><label>Логин:      <input name="login"></label></div>
+                            <div class="mar10"><label>Password:<input type="password" name="password" minlength="6" required></label></div>
                             <span id="valid_password_message" class="mesage_error"></span>
-                        </td>
-                    </tr>
-              
-                    <tr>
-                        <td> Email: </td>
-                        <td>
-                            <input type="email" name="email" required="required"><br>
+                            <div class="mar10"><label>Проверочный:<input type="password" name="confirm_pass" minlength="6" required></label></div>
+                            <span id="valid_password_message" class="mesage_error"></span>
+                            <div class="mar10"><label>Email:<input name="email"></label></div>
                             <span id="valid_email_message" class="mesage_error"></span>
-                        </td>
-                    </tr>
-              
-                    <tr>
-                        <td> Name: </td>
-                        <td>
-                            <input type="Name" name="Name" placeholder="Только 2 символа" maxlength="2" required="required"><br>
+                            <div class="mar10"><label>Имя:      <input name="name"></label></div>
                             
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> Confirm_password: </td>
-                        <td>
-                            <p>
-                                <input type="text" name="confirm_password" placeholder="confirm_password" required="required">
-                            </p>
-                        </td>
-                        <td> <?if(!empty($_COOKIE["login1"])): echo $_COOKIE["login1"]; endif;?> </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <input type="submit" name="btn_submit_register" value="Зарегистрироватся!">
-                        </td>
-                    </tr>
-                </tbody></table>
+                            
             </form>
-        </div>
-<?php
-     //endif;
-     //$new_url = 'exit.php';
-     //header('Location: '.$new_url);
-    //if($_COOKIE["user"] == ' ')
-?>
+            <div id="message"></div>
+            <div><button type="button" id="my_form">Зарегистрироватся</button></div>
+
         <div id="authorized">
                 <h2>Форма регистрации </h2>
-                <h2><?if(!empty($_COOKIE["reg"])): echo $_COOKIE["reg"]; endif;?></h2>
+                
 
         </div>
-<?php
-    
-     
-    
-?>
+
+
+
+<script> 
+        $('#my_form').click(function(){
+	
+	     $.post(
+		      'register.php', // адрес обработчика
+		       $("#form_reg").serialize(), // отправляемые данные  		
+		
+		       function(msg) { // получен ответ сервера  
+			   $('#form_reg').hide('slow');
+			   $('#message').html(msg);
+		}
+	    );
+	
+         });
+</script> 
+
+<? endif;?>

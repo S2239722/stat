@@ -36,8 +36,8 @@ public function Openrec($Name,$login,$Nam)
        foreach($dec as $key=>$values )
        {
            if(in_array($login, $values)):
-			setcookie("login",'ошибка', time() + 10, "/");	
-            header("Location: " . $_SERVER["HTTP_REFERER"]);    
+			setcookie("login",'ошибка', time() + 10, "/");
+            echo "Подобный логин уже существует, попробуйте еще раз!" ;  
 		    exit();
 	        endif;
 			
@@ -46,41 +46,72 @@ public function Openrec($Name,$login,$Nam)
         //Если  login  не существует в базе регистрируем его
         $dec[$Name] = $Nam;
         file_put_contents('BD/jsBd.json',json_encode($dec));
-		setcookie("reg",'Новый пользователь зарегитрирован', time() + 60, "/");	
-        header("Location: " . $_SERVER["HTTP_REFERER"]);
+		setcookie("reg",$login, time() + 60, "/");	
     } 
  }
-
-
-
+ //проверяем наличие обязательных полей
+ //проверка на асинхронность
+ if(isset($_SERVER['HTTP_X_REQUESTED_WITH']) && !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
+ {
+ if (isset($_POST["login"]) && isset($_POST["password"]) && isset($_POST["email"]) ) 
+ {
+ if(!empty($_COOKIE["reg"])) 
+    {
+     echo ('Hello  '.$_COOKIE["reg"].',если вы хотите зарегистрироватся как новый пользователь немножко подождите!');
+     return;
+    }   
+ if ($_POST['login'] == '') 
+ {
+     echo 'Не заполнено поле login, нажмите -Регистрация- или обновите страницу';
+     return;
+ }
+ if ($_POST['password'] == '') 
+ {
+     echo 'Не заполнено поле Password, нажмите -Регистрация- или обновите страницу';
+     return;
+ }
+ if (!preg_match('/^([a-z]|\d|_)+$/i', $_POST['password']))
+ {
+   echo "Не правильно заполненно поле Password, нажмите -Регистрация- или обновите страницу";
+   return;
+ }
+ 
+ if ($_POST['email'] == '') 
+ {
+     echo 'Не заполнено поле Email, нажмите -Регистрация- или обновите страницу';
+     return;
+ } 
+ if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
+ {
+     echo 'Не правильно заполненно поле Email, нажмите -Регистрация- или обновите страницу';
+     return;
+ } 
 //Данные из формы
- $login=$_POST['login'];
- $password=$_POST['password'];
- $email=$_POST['email'];
- $Name=$_POST['Name'];     
- $confirm_password=$_POST['confirm_password']; 
- //Шифруем рароль
- $Sol = 'Soll';
- $password1 = md5($Sol.$password);
- //print_r($password1);
+$login=$_POST['login'];
+$password=$_POST['password'];
+$email=$_POST['email'];
+$Name=$_POST['name'];     
+$confirm_password=$_POST['confirm_pass']; 
+//Шифруем рароль
+$Sol = 'Soll';
+$password1 = md5($Sol.$password);
+$confirm_password1 = md5($Sol.$confirm_password);
 //создаем новые обьекты
-$Nam = new Par($login, $password1, $email, $confirm_password);
+$Nam = new Par($login, $password1, $email, $confirm_password1);
 $js = new Openrecord();
 
 if($password == $confirm_password):
-    $js->Openrec($Name,$login,$Nam);
+   $js->Openrec($Name,$login,$Nam);
+   echo ('Hello ' .$login);
+   return; //возвращаем сообщение пользователю
 else:
-	setcookie("login1",'Не сходится пароль'.$password1, time() + 60, "/");
-    header("Location: " . $_SERVER["HTTP_REFERER"]);
+   
+   echo "Не сходится пароль" ;  
 endif;
 
-
-
-//setcookie("login",' ', time() + 60, "/");
-//header("Location: " . $_SERVER["HTTP_REFERER"]);
-
+ }
+ }
 //Проверка на запись файла 
-
 switch (json_last_error()) {
 	case JSON_ERROR_NONE:
 	break;
@@ -106,7 +137,7 @@ switch (json_last_error()) {
 	
 }
 
-//header("Location: " . $_SERVER["HTTP_REFERER"]);
+
 
 
 

@@ -1,25 +1,22 @@
 <?php
     //Запускаем сессию
     session_start();
-    //setcookie("user",' ', time() + 360, "/");
-    //setcookie("login",' ', time() + 360, "/");
-    //setcookie("pas",' ', time() + 360, "/");
-    //setcookie("login1",' ', time() + 360, "/");
-    //setcookie("reg",' ', time() + 360, "/");
+ 
 ?>
 <!DOCTYPE html>
 <html>
     <head>
         <title>Веб-приложение</title>
+        <script src="assets/js/jquery.min.js"></script>
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="css/styles.css">
     </head>
     <body>
- 
+    <div class="layout-center-wrap"><div class="layout-wrap pad50-b">
         <div id="header">
             <h2>Веб-приложение</h2>
  
-            <a href="header.php">Главная</a>
+            <a href="index.php">Главная</a>
  
             <div id="auth_block">
  
@@ -34,7 +31,7 @@
             </div>
              <div class="clear"></div>
         </div>
-        
+    
     </body>
 </html>
 
