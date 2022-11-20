@@ -1,7 +1,15 @@
 <?php
     //Запускаем сессию
     session_start();
- 
+    
+
+   // define('MyConst', TRUE);
+   
+    
+    
+    
+
+        
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,7 +39,8 @@
             </div>
              <div class="clear"></div>
         </div>
-    
+         <? if(!empty($_COOKIE["reg"])):
+         echo ("Hello   ".$_COOKIE["reg"]); endif; ?>
     </body>
 </html>
 

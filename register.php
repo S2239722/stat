@@ -24,7 +24,7 @@ class  Openrecord{
        public $Name;
 	   public $Nam = array();
 
-public function Openrec($Name,$login,$Nam)
+public function Openrec($Name,$login,$Nam,$email,$password1)
     {
 	   
 
@@ -36,17 +36,45 @@ public function Openrec($Name,$login,$Nam)
        foreach($dec as $key=>$values )
        {
            if(in_array($login, $values)):
-			setcookie("login",'ошибка', time() + 10, "/");
-            echo "Подобный логин уже существует, попробуйте еще раз!" ;  
+			   
+            $res = array('key' => 1,'text'=> '  Подобный логин уже существует, попробуйте еще раз!');
+            echo json_encode($res);
+          
 		    exit();
 	        endif;
-			
+		   
+            if(in_array($email, $values)):
+                
+                $res = array('key' => 3,'text'=> '  Подобный email уже существует, попробуйте еще раз!');
+                echo json_encode($res);
+              
+            exit();
+            endif;
+
+            if(in_array($password1, $values)):
+              
+               $res = array('key' => 2,'text'=> '  Подобный password уже существует, попробуйте еще раз!');
+               echo json_encode($res);
+             
+           exit();
+           endif;
         }
 
-        //Если  login  не существует в базе регистрируем его
-        $dec[$Name] = $Nam;
+
+
+
+      //Если  login  не существует в базе регистрируем его
+      $dec[$Name] = $Nam;   
+  if (file_exists('BD/jsBd.json')){
         file_put_contents('BD/jsBd.json',json_encode($dec));
-		setcookie("reg",$login, time() + 60, "/");	
+       // header('Location: '. $_SERVER['HTTP_REFERER']);
+		  setcookie("reg",$Name, time() + 60, "/");
+        $red = array('key' => 4,'text'=> '  Hello  '.$Name);
+        echo json_encode($red);
+        };
+        
+        
+
     } 
  }
  //проверяем наличие обязательных полей
@@ -59,33 +87,87 @@ public function Openrec($Name,$login,$Nam)
     {
      echo ('Hello  '.$_COOKIE["reg"].',если вы хотите зарегистрироватся как новый пользователь немножко подождите!');
      return;
-    }   
+    }
+   
+
+
  if ($_POST['login'] == '') 
  {
-     echo 'Не заполнено поле login, нажмите -Регистрация- или обновите страницу';
+    $res = array('key' => 1,'text'=> '  Не заполнено поле login, нажмите -Регистрация- или обновите страницу');
+    echo json_encode($res);
      return;
  }
+ if (iconv_strlen($_POST['login']) < 6)
+    {
+        $res = array('key' => 1,'text'=> '  Не до конца заполнено поле Имя, должно состоять из 6 символов');
+        echo json_encode($res);
+        return; //проверяем наличие обязательных полей
+    }
+    
+    if (!preg_match('/^([а-пр-яa-zA-Z]|\d|_)+$/', $_POST['login']))
+      {
+         $res = array('key' => 1,'text'=> '  Поле login не должен содежать пробелы');
+         echo json_encode($res);
+         return;
+      }
+   
  if ($_POST['password'] == '') 
  {
-     echo 'Не заполнено поле Password, нажмите -Регистрация- или обновите страницу';
+    $res = array('key' => 2,'text'=> '  Не заполнено поле Password, нажмите -Регистрация- или обновите страницу');
+    echo json_encode($res);
      return;
  }
- if (!preg_match('/^([a-z]|\d|_)+$/i', $_POST['password']))
+ if (strlen($_POST['password']) < 6)
+    {
+        $res = array('key' => 2,'text'=> '  Не до конца заполнено поле Password, должно состоять мин из 6 символов');
+        echo json_encode($res);
+        return; //проверяем наличие обязательных полей
+    }
+ if (!preg_match('/^([a-z]|\d|)+$/i', $_POST['password']))
  {
-   echo "Не правильно заполненно поле Password, нажмите -Регистрация- или обновите страницу";
-   return;
+    $res = array('key' => 2,'text'=> '  Поле Password не должен содержать пробелы');
+    echo json_encode($res);
+    return;
  }
  
  if ($_POST['email'] == '') 
  {
-     echo 'Не заполнено поле Email, нажмите -Регистрация- или обновите страницу';
-     return;
+    $res = array('key' => 3,'text'=> '  Не заполнено поле Email, нажмите -Регистрация- или обновите страницу');
+    echo json_encode($res);
+    return;
  } 
  if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))
  {
-     echo 'Не правильно заполненно поле Email, нажмите -Регистрация- или обновите страницу';
-     return;
+    $res = array('key' => 3,'text'=> '  Не правильно заполнено поле Email, нажмите -Регистрация- или обновите страницу');
+    echo json_encode($res);
+    return;
  } 
+ if ($_POST['name'] == '')
+ {
+    $res = array('key' => 6,'text'=> '  Не заполнено поле Имя, нажмите -Регистрация- или обновите страницу');
+    echo json_encode($res);
+    return;
+ } 
+ if (iconv_strlen($_POST['name']) < 2)
+ {
+    $res = array('key' => 6,'text'=> '  Не до конца заполнено поле Имя, должно быть 2 символа');
+    echo json_encode($res);
+    return;
+ }
+ if (iconv_strlen($_POST['name']) > 2)
+ {
+    $res = array('key' => 6,'text'=> '  Поле Имя должно быть не более 2-х символа');
+    echo json_encode($res);
+    return;
+ }
+ if (!preg_match('/^([а-пр-яa-zA-Z]|\d|)+$/', $_POST['name']))
+ {
+    $res = array('key' => 6,'text'=> '  Поле Имя не должно содержать пробелы');
+    echo json_encode($res);
+    return;
+ }
+
+
 //Данные из формы
 $login=$_POST['login'];
 $password=$_POST['password'];
@@ -101,12 +183,14 @@ $Nam = new Par($login, $password1, $email, $confirm_password1);
 $js = new Openrecord();
 
 if($password == $confirm_password):
-   $js->Openrec($Name,$login,$Nam);
-   echo ('Hello ' .$login);
+   $js->Openrec($Name,$login,$Nam,$email,$password1);
+   
+   
    return; //возвращаем сообщение пользователю
 else:
-   
-   echo "Не сходится пароль" ;  
+    $res = array('key' => 5,'text'=> '  Не сходится пароль');
+    echo json_encode($res);
+    
 endif;
 
  }
